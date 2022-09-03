@@ -3,9 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE2731D1-5E11-4B47-94F5-ACFA803027BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEngine", "src\StoryEngine\StoryEngine.csproj", "{76288147-FAD4-4672-99A0-CF6A1639D65F}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76288147-FAD4-4672-99A0-CF6A1639D65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76288147-FAD4-4672-99A0-CF6A1639D65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76288147-FAD4-4672-99A0-CF6A1639D65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76288147-FAD4-4672-99A0-CF6A1639D65F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{76288147-FAD4-4672-99A0-CF6A1639D65F} = {EE2731D1-5E11-4B47-94F5-ACFA803027BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EDDFA2EC-C83F-4A76-B134-FFBA4D4B0733}
