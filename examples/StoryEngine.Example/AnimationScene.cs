@@ -35,7 +35,6 @@ namespace StoryEngine.Example
                 },
                 TimeSpan.FromSeconds(1),
                 AnimationMode.Loop,
-                new Coordinates(0, 0),
                 _window);
         }
 

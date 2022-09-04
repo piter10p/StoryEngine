@@ -7,8 +7,9 @@ namespace StoryEngine.Core.Components.Animation
         private readonly List<string> _frames;
         private readonly TimeSpan _delay;
         private readonly AnimationMode _mode;
-        private readonly Coordinates _coordinates;
         private readonly IWindow _window;
+
+        private Coordinates Coordinates { get; set; } = Coordinates.Zero;
 
         public bool IsPlaying { get; private set; } = false;
         public bool PlayingEnded { get; private set; } = false;
@@ -20,13 +21,11 @@ namespace StoryEngine.Core.Components.Animation
             List<string> frames,
             TimeSpan delay,
             AnimationMode mode,
-            Coordinates coordinates,
             IWindow window)
         {
             _frames = frames;
             _delay = delay;
             _mode = mode;
-            _coordinates = coordinates;
             _window = window;
         }
 
@@ -70,7 +69,7 @@ namespace StoryEngine.Core.Components.Animation
                 }
             }
 
-            _window.Draw(new Text(_frames.ElementAt(CurrentFrame), _coordinates));
+            _window.Draw(new Text(_frames.ElementAt(CurrentFrame), Coordinates));
         }
 
         private void HandleAnimationEnd()
