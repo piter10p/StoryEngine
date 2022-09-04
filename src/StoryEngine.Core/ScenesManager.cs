@@ -63,12 +63,6 @@ namespace StoryEngine.Core
                 if(scene.Enabled)
                     scene.Scene.Update(deltaTime);
             }
-
-            if (_scenesToLoad.Any())
-                LoadQueuedScenes();
-
-            if(_scenesToRemove.Any())
-                RemoveQueuedScenes();
         }
 
         private void SortScenes()
@@ -79,26 +73,32 @@ namespace StoryEngine.Core
             _scenes = scenesList.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
-        private void LoadQueuedScenes()
+        public void LoadQueuedScenes()
         {
-            for (var i = 0; i < _scenesToLoad.Count; i++)
+            if(_scenesToLoad.Any())
             {
-                var scene = _scenesToLoad.ElementAt(i);
-                scene.Value.Initialize();
-                _scenes.Add(scene.Key, new LoadedScene(scene.Value));
-            }
+                for (var i = 0; i < _scenesToLoad.Count; i++)
+                {
+                    var scene = _scenesToLoad.ElementAt(i);
+                    scene.Value.Initialize();
+                    _scenes.Add(scene.Key, new LoadedScene(scene.Value));
+                }
 
-            _scenesToLoad.Clear();
+                _scenesToLoad.Clear();
+            }
         }
 
-        private void RemoveQueuedScenes()
+        public void RemoveQueuedScenes()
         {
-            foreach (var sceneType in _scenesToRemove)
+            if(_scenesToRemove.Any())
             {
-                _scenes.Remove(sceneType);
-            }
+                foreach (var sceneType in _scenesToRemove)
+                {
+                    _scenes.Remove(sceneType);
+                }
 
-            _scenesToRemove.Clear();
+                _scenesToRemove.Clear();
+            }
         }
     }
 }

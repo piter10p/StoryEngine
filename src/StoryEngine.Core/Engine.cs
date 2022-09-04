@@ -37,6 +37,8 @@ namespace StoryEngine.Core
                 lastUpdateTime = DateTime.Now;
                 _inputReader.Update();
                 _scenesManager.UpdateScenes(new DeltaTime(deltaTime));
+                _scenesManager.RemoveQueuedScenes();
+                _scenesManager.LoadQueuedScenes();
                 _window.Display();
             }
         }

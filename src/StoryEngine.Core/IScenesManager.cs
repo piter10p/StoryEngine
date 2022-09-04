@@ -6,5 +6,7 @@
         public void RemoveScene<TScene>() where TScene : IScene;
         public LoadedScene? GetLoadedScene<TScene>() where TScene : IScene;
         public void UpdateScenes(DeltaTime deltaTime);
+        public void LoadQueuedScenes();
+        public void RemoveQueuedScenes();
     }
 }
