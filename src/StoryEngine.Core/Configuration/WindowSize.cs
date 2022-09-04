@@ -1,4 +1,4 @@
-﻿namespace StoryEngine.Configuration
+﻿namespace StoryEngine.Core.Configuration
 {
     public class WindowSize
     {

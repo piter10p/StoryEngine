@@ -1,4 +1,4 @@
-﻿namespace StoryEngine.Exceptions
+﻿namespace StoryEngine.Core.Exceptions
 {
     public class SceneLoadedAlreadyException : Exception
     {

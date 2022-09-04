@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using StoryEngine.Graphics;
+using StoryEngine.Core.Graphics;
 using Xunit;
 
 namespace StoryEngine.Core.Tests.Graphics

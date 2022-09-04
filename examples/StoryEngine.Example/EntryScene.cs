@@ -1,6 +1,7 @@
-﻿using StoryEngine.Configuration;
-using StoryEngine.Graphics;
-using StoryEngine.Input;
+﻿using StoryEngine.Core;
+using StoryEngine.Core.Configuration;
+using StoryEngine.Core.Graphics;
+using StoryEngine.Core.Input;
 
 namespace StoryEngine.Example
 {

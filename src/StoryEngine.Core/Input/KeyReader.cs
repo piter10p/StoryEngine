@@ -1,4 +1,4 @@
-﻿namespace StoryEngine.Input
+﻿namespace StoryEngine.Core.Input
 {
     public class KeyReader : IKeyReader
     {
@@ -8,7 +8,7 @@
         {
             var keys = new List<ConsoleKey>();
 
-            while(Console.KeyAvailable)
+            while (Console.KeyAvailable)
             {
                 keys.Add(Console.ReadKey(true).Key);
             }

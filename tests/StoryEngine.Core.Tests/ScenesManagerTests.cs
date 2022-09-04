@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
+using StoryEngine.Core.Exceptions;
 using StoryEngine.Core.Tests.Mocks;
-using StoryEngine.Exceptions;
 using System;
 using Xunit;
 

@@ -1,6 +1,6 @@
-﻿using StoryEngine.Exceptions;
+﻿using StoryEngine.Core.Exceptions;
 
-namespace StoryEngine
+namespace StoryEngine.Core
 {
     public class ScenesManager : IScenesManager
     {
@@ -16,7 +16,7 @@ namespace StoryEngine
         {
             var sceneType = typeof(TScene);
 
-            if(_scenes.ContainsKey(sceneType))
+            if (_scenes.ContainsKey(sceneType))
                 throw new SceneLoadedAlreadyException(sceneType);
 
             var scene = _serviceProvider.GetService(sceneType) as IScene;

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using StoryEngine;
-using StoryEngine.Configuration;
+using StoryEngine.Core.Configuration;
+using StoryEngine.Core;
+using StoryEngine.Core.Extensions;
 using StoryEngine.Example;
-using StoryEngine.Extensions;
 
 var engineConfiguration = new EngineConfiguration();
 

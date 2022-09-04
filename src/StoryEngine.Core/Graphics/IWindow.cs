@@ -1,4 +1,4 @@
-﻿namespace StoryEngine.Graphics
+﻿namespace StoryEngine.Core.Graphics
 {
     public interface IWindow
     {

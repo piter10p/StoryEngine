@@ -1,8 +1,8 @@
-﻿using StoryEngine.Configuration;
-using StoryEngine.Graphics;
-using StoryEngine.Input;
+﻿using StoryEngine.Core.Configuration;
+using StoryEngine.Core.Graphics;
+using StoryEngine.Core.Input;
 
-namespace StoryEngine
+namespace StoryEngine.Core
 {
     public class Engine
     {
@@ -26,7 +26,7 @@ namespace StoryEngine
         public void Run<TEntryScene>() where TEntryScene : IScene
         {
             Initialize();
-            
+
             _scenesManager.LoadScene<TEntryScene>();
 
             var lastUpdateTime = DateTime.Now;

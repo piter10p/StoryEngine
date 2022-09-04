@@ -1,4 +1,4 @@
-﻿namespace StoryEngine.Graphics
+﻿namespace StoryEngine.Core.Graphics
 {
     public class Text
     {
@@ -21,7 +21,7 @@
 
         public bool TakeChar(Coordinates coordinates, out char? c)
         {
-            if(!_bounds.Includes(coordinates))
+            if (!_bounds.Includes(coordinates))
             {
                 c = null;
                 return false;
@@ -37,7 +37,7 @@
                 c = null;
                 return false;
             }
-            
+
             c = line[x];
             return true;
         }

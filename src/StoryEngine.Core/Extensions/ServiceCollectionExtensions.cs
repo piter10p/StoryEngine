@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using StoryEngine.Configuration;
-using StoryEngine.Graphics;
-using StoryEngine.Input;
+using StoryEngine.Core.Configuration;
+using StoryEngine.Core.Graphics;
+using StoryEngine.Core.Input;
 using System.Reflection;
 
-namespace StoryEngine.Extensions
+namespace StoryEngine.Core.Extensions
 {
     public static class ServiceCollectionExtensions
     {

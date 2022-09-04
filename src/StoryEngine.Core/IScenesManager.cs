@@ -1,4 +1,4 @@
-﻿namespace StoryEngine
+﻿namespace StoryEngine.Core
 {
     public interface IScenesManager
     {

@@ -1,6 +1,6 @@
-﻿using StoryEngine.Configuration;
+﻿using StoryEngine.Core.Configuration;
 
-namespace StoryEngine.Graphics
+namespace StoryEngine.Core.Graphics
 {
     public class Window : IWindow
     {
@@ -29,7 +29,7 @@ namespace StoryEngine.Graphics
 
                     foreach (var text in _texts)
                     {
-                        if(text.TakeChar(coordinates, out var ch))
+                        if (text.TakeChar(coordinates, out var ch))
                             c = ch;
                     }
 

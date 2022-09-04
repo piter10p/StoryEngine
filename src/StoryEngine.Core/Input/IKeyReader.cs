@@ -1,4 +1,4 @@
-﻿namespace StoryEngine.Input
+﻿namespace StoryEngine.Core.Input
 {
     public interface IKeyReader
     {

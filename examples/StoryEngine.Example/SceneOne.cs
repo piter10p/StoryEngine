@@ -1,4 +1,5 @@
-﻿using StoryEngine.Graphics;
+﻿using StoryEngine.Core;
+using StoryEngine.Core.Graphics;
 
 namespace StoryEngine.Example
 {
