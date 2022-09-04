@@ -24,9 +24,12 @@ namespace StoryEngine.Core.Graphics
 
         public void Display()
         {
-            for (int x = 0; x < _engineConfiguration.WindowSize.Width; x++)
+            for (var y = 0; y < _engineConfiguration.WindowSize.Height; y++)
             {
-                for (int y = 0; y < _engineConfiguration.WindowSize.Height; y++)
+                var lineCoordinates = new Coordinates(0, y);
+                _gameConsole.SetCursorPosition(lineCoordinates);
+
+                for (var x = 0; x < _engineConfiguration.WindowSize.Width; x++)
                 {
                     var coordinates = new Coordinates(x, y);
                     char? c = null;
@@ -36,8 +39,6 @@ namespace StoryEngine.Core.Graphics
                         if (text.TakeChar(coordinates, out var ch))
                             c = ch;
                     }
-
-                    _gameConsole.SetCursorPosition(coordinates);
 
                     if (c is null)
                         _gameConsole.Write(' ');
