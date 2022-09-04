@@ -17,8 +17,9 @@ namespace StoryEngine.Example
         private readonly Button _selectionListExampleButton = new Button(ConsoleKey.B);
         private readonly Button _saveGameExampleButton = new Button(ConsoleKey.C);
         private readonly Button _animationButton = new Button(ConsoleKey.D);
+        private readonly Button _typingButton = new Button(ConsoleKey.E);
 
-        private readonly Text Text = new Text("Press A for scenes example.\nPress B for selection list example.\nPress C for save game example.\nPress D for animation example.",
+        private readonly Text Text = new Text("Press A for scenes example.\nPress B for selection list example.\nPress C for save game example.\nPress D for animation example.\nPress E for typing example.",
             Coordinates.Zero);
 
         private readonly Coordinates _delayTextCoordinates;
@@ -69,6 +70,12 @@ namespace StoryEngine.Example
                 if(_buttonHandler.Update(_animationButton))
                 {
                     _scenesManager.LoadScene<AnimationScene>();
+                    DisableCurrentSceneText();
+                }
+
+                if(_buttonHandler.Update(_typingButton))
+                {
+                    _scenesManager.LoadScene<TypingScene>();
                     DisableCurrentSceneText();
                 }
             }
