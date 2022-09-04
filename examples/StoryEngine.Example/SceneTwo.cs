@@ -18,7 +18,7 @@ namespace StoryEngine.Example
 
         public void Update(DeltaTime deltaTime)
         {
-            _window.Draw(new Text("Test\nContent2", new Coordinates(0, 0)));
+            _window.Draw(new Text("Somesuper\nContentLong2", new Coordinates(0, 0)));
         }
     }
 }
