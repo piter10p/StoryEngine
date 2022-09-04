@@ -13,9 +13,11 @@ namespace StoryEngine.Example
 
         private readonly SelectionListComponent _selectionListComponent;
 
-        private readonly ListElement _testElement1 = new ListElement("Test element 1");
+        private readonly ListElement _testElement1 = new ListElement("Some long test element 1");
         private readonly ListElement _testElement2 = new ListElement("Test element 2");
-        private readonly ListElement _testElement3 = new ListElement("Test element 3");
+        private readonly ListElement _testElement3 = new ListElement("Test 3");
+        private readonly ListElement _pressElement = new ListElement("Press and see :)");
+        private readonly ListElement _removeElement = new ListElement("Remove me!");
 
         private readonly Text _text1 = new Text("Text 1", new Coordinates(1, 10));
         private readonly Text _text2 = new Text("Text 2", new Coordinates(1, 11));
@@ -39,6 +41,8 @@ namespace StoryEngine.Example
             _selectionListComponent.AddElement(_testElement1);
             _selectionListComponent.AddElement(_testElement2);
             _selectionListComponent.AddElement(_testElement3);
+            _selectionListComponent.AddElement(_pressElement);
+            _selectionListComponent.AddElement(_removeElement);
             _selectionListComponent.SelectionMarker = "->";
         }
 
@@ -56,6 +60,12 @@ namespace StoryEngine.Example
 
                 if (selected == _testElement3)
                     _showText3 = !_showText3;
+
+                if (selected == _pressElement)
+                    _selectionListComponent.Centered = !_selectionListComponent.Centered;
+
+                if(selected == _removeElement)
+                    _selectionListComponent.RemoveElement(_removeElement);
             }
 
             if (_showText1)
