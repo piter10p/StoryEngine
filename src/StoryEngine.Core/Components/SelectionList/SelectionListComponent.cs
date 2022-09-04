@@ -53,7 +53,19 @@ namespace StoryEngine.Core.Components.SelectionList
         public ListElement? Update()
         {
             SetSelectionInListBounds();
+            UpdateInput();
+            DrawList();
 
+            if (_buttonHandler.Update(_confirmButton))
+            {
+                return _elements.ElementAt(Selection);
+            }
+
+            return null;
+        }
+
+        private void UpdateInput()
+        {
             if (_buttonHandler.Update(_upButton))
             {
                 Selection--;
@@ -62,14 +74,17 @@ namespace StoryEngine.Core.Components.SelectionList
                     Selection = _elements.Count - 1;
             }
 
-            if(_buttonHandler.Update(_downButton))
+            if (_buttonHandler.Update(_downButton))
             {
                 Selection++;
 
-                if(Selection >= _elements.Count)
+                if (Selection >= _elements.Count)
                     Selection = 0;
             }
+        }
 
+        private void DrawList()
+        {
             _window.Draw(new Text(SelectionMarker, new Coordinates(
                 Coordinates.X - SelectionMarker.Length - 1,
                 Coordinates.Y + Selection)));
@@ -82,13 +97,6 @@ namespace StoryEngine.Core.Components.SelectionList
                     Coordinates.X,
                     Coordinates.Y + i)));
             }
-
-            if (_buttonHandler.Update(_confirmButton))
-            {
-                return _elements.ElementAt(Selection);
-            }
-
-            return null;
         }
 
         private void SetSelectionInListBounds()
