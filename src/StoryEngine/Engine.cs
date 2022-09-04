@@ -32,7 +32,7 @@ namespace StoryEngine
                 var deltaTime = DateTime.Now - lastUpdateTime;
                 lastUpdateTime = DateTime.Now;
                 _scenesManager.UpdateScenes(new DeltaTime(deltaTime));
-                _window.Draw();
+                _window.Display();
             }
         }
 

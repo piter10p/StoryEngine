@@ -2,8 +2,7 @@
 {
     public interface IWindow
     {
-        public void Add(Text text);
-        public void Remove(Text text);
-        public void Draw();
+        public void Draw(Text text);
+        public void Display();
     }
 }

@@ -12,19 +12,13 @@ namespace StoryEngine.Graphics
             _engineConfiguration = engineConfiguration;
         }
 
-        public void Add(Text text)
+        public void Draw(Text text)
         {
             if (text is null) throw new ArgumentNullException(nameof(text));
             _texts.Add(text);
         }
 
-        public void Remove(Text text)
-        {
-            if (text is null) throw new ArgumentNullException(nameof(text));
-            _texts.Remove(text);
-        }
-
-        public void Draw()
+        public void Display()
         {
             for (int x = 0; x < _engineConfiguration.WindowSize.Width; x++)
             {
@@ -47,6 +41,8 @@ namespace StoryEngine.Graphics
                         Console.Write(c);
                 }
             }
+
+            _texts.Clear();
         }
     }
 }

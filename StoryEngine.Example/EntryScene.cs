@@ -13,12 +13,12 @@ namespace StoryEngine.Example
 
         public void Initialize()
         {
-            _window.Add(new Text("Test\nContent", new Coordinates(0, 0)));
-            _window.Add(new Text("Test2\nContent2", new Coordinates(4, 1)));
         }
 
         public void Update(DeltaTime deltaTime)
         {
+            _window.Draw(new Text("Test\nContent", new Coordinates(0, 0)));
+            _window.Draw(new Text("Test2\nContent2", new Coordinates(4, 1)));
         }
     }
 }

@@ -33,10 +33,12 @@
             var line = _lines[y];
 
             if (x >= line.Length)
-                c = ' ';
-            else
-                c = line[x];
-
+            {
+                c = null;
+                return false;
+            }
+            
+            c = line[x];
             return true;
         }
     }
