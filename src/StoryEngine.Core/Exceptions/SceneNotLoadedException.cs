@@ -3,7 +3,7 @@
     public class SceneNotLoadedException : Exception
     {
         public SceneNotLoadedException(Type sceneType)
-            : base($"Scene '{sceneType.FullName}' not loaded.")
+            : base($"Scene not loaded: '{sceneType.FullName}'.")
         {
         }
     }

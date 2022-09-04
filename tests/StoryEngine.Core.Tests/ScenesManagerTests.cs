@@ -11,6 +11,10 @@ namespace StoryEngine.Core.Tests
     {
     }
 
+    public class SceneMockDisabled : SceneMock
+    {
+    }
+
     public class ScenesManagerTests
     {
         [Fact]
@@ -113,7 +117,7 @@ namespace StoryEngine.Core.Tests
         }
 
         [Fact]
-        public void UpdateScenes_ShouldUpdateScenesInCorrectOrder()
+        public void UpdateScenes_ShouldUpdateScenesInCorrectOrder_AndNotUpdateDisabledScene()
         {
             //Arrange
             var sceneOne = new SceneMock();
@@ -122,24 +126,38 @@ namespace StoryEngine.Core.Tests
             var sceneTwo = new SceneMockTwo();
             sceneTwo.Layer = 2;
 
+            var sceneDisabled = new SceneMockDisabled();
+            sceneDisabled.Layer = 3;
+
             var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
             serviceProviderMock.Setup(x => x.GetService(typeof(SceneMock)))
                 .Returns(sceneOne);
             serviceProviderMock.Setup(x => x.GetService(typeof(SceneMockTwo)))
                 .Returns(sceneTwo);
+            serviceProviderMock.Setup(x => x.GetService(typeof(SceneMockDisabled)))
+                .Returns(sceneDisabled);
 
             var sut = new ScenesManager(serviceProviderMock.Object);
 
             //Act
             sut.LoadScene<SceneMockTwo>();
             sut.LoadScene<SceneMock>();
+            sut.LoadScene<SceneMockDisabled>();
+
+            var loadedScene = sut.GetLoadedScene<SceneMockDisabled>();
+            loadedScene.Enabled = false;
 
             var deltaTime = new DeltaTime(TimeSpan.FromSeconds(1));
             sut.UpdateScenes(deltaTime);
 
             //Assert
+            sceneOne.InitializationsCounter.Should().Be(1);
+            sceneTwo.InitializationsCounter.Should().Be(1);
+            sceneDisabled.InitializationsCounter.Should().Be(1);
+
             sceneOne.UpdatesCounter.Should().Be(1);
             sceneTwo.UpdatesCounter.Should().Be(1);
+            sceneDisabled.UpdatesCounter.Should().Be(0);
 
             sceneOne.LastUpdateTime.Ticks.Should().BeLessThan(sceneTwo.LastUpdateTime.Ticks);
         }
