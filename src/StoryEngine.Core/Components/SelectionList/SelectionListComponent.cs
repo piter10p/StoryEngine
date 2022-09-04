@@ -16,6 +16,7 @@ namespace StoryEngine.Core.Components.SelectionList
         public string SelectionMarker { get; set; } = ">";
         public int Selection { get; set; } = 0;
         public Coordinates Coordinates { get; set; } = Coordinates.Zero;
+        public bool Centered { get; set; } = false;
 
         public SelectionListComponent(
             IButtonHandler buttonHandler,
@@ -85,18 +86,32 @@ namespace StoryEngine.Core.Components.SelectionList
 
         private void DrawList()
         {
-            _window.Draw(new Text(SelectionMarker, new Coordinates(
-                Coordinates.X - SelectionMarker.Length - 1,
-                Coordinates.Y + Selection)));
-
             for (var i = 0; i < _elements.Count; i++)
             {
                 var element = _elements.ElementAt(i);
-
+                var offset = GetElementOffset(i, element);
                 _window.Draw(new Text(element.Content, new Coordinates(
-                    Coordinates.X,
+                    Coordinates.X + offset,
                     Coordinates.Y + i)));
+
+                if(i == Selection)
+                {
+                    _window.Draw(new Text(SelectionMarker, new Coordinates(
+                    Coordinates.X + offset - SelectionMarker.Length - 1,
+                    Coordinates.Y + Selection)));
+                }
             }
+        }
+
+        private int GetElementOffset(int line, ListElement element)
+        {
+            if(!Centered)
+            {
+                return 0;
+            }
+
+            var listWidth = _elements.Max(x => x.Content.Length);
+            return (listWidth - element.Content.Length) / 2;
         }
 
         private void SetSelectionInListBounds()
