@@ -17,6 +17,7 @@ namespace StoryEngine.Core.Extensions
             services.AddSingleton<IGameConsole, GameConsole>();
             services.AddSingleton<IScenesManager, ScenesManager>();
             services.AddSingleton<IWindow, Window>();
+            services.AddSingleton<IGameSaver, GameSaver>();
             services.AddSingleton<IInputReader, InputReader>();
             services.AddSingleton<IButtonHandler, ButtonHandler>();
             services.AddSingleton<Engine>();
