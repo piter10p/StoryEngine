@@ -2,12 +2,12 @@
 
 namespace StoryEngine.Example
 {
-    public class SceneOne : IScene
+    public class SceneTwo : IScene
     {
         public int Layer { get; set; } = 2;
         private readonly IWindow _window;
 
-        public SceneOne(IWindow window)
+        public SceneTwo(IWindow window)
         {
             _window = window;
         }
@@ -18,7 +18,7 @@ namespace StoryEngine.Example
 
         public void Update(DeltaTime deltaTime)
         {
-            _window.Draw(new Text("Test\nContent1", new Coordinates(0, 0)));
+            _window.Draw(new Text("Test\nContent2", new Coordinates(0, 0)));
         }
     }
 }

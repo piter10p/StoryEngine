@@ -26,7 +26,7 @@ namespace StoryEngine.Example
             _displayHeight = configuration.WindowSize.Height - 1;
         }
 
-        public int Layer { get; } = 1000;
+        public int Layer { get; } = 0;
 
         public void Initialize()
         {
