@@ -4,7 +4,7 @@ namespace StoryEngine
 {
     public class ScenesManager : IScenesManager
     {
-        private readonly Dictionary<Type, IScene> _scenes = new Dictionary<Type, IScene>();
+        private Dictionary<Type, IScene> _scenes = new Dictionary<Type, IScene>();
         private readonly IServiceProvider _serviceProvider;
 
         public ScenesManager(IServiceProvider serviceProvider)
@@ -12,7 +12,7 @@ namespace StoryEngine
             _serviceProvider = serviceProvider;
         }
 
-        public void LoadScene<TScene>() where TScene : IScene
+        public TScene LoadScene<TScene>() where TScene : IScene
         {
             var sceneType = typeof(TScene);
 
@@ -26,6 +26,8 @@ namespace StoryEngine
 
             scene.Initialize();
             _scenes.Add(sceneType, scene);
+            SortScenes();
+            return (TScene)scene;
         }
 
         public void RemoveScene<TScene>() where TScene : IScene
@@ -40,10 +42,19 @@ namespace StoryEngine
 
         public void UpdateScenes(DeltaTime deltaTime)
         {
+            SortScenes();
+
             foreach (var scene in _scenes.Values)
             {
                 scene.Update(deltaTime);
             }
+        }
+
+        private void SortScenes()
+        {
+            var scenesList = _scenes.ToList();
+            scenesList.Sort((pair1, pair2) => pair2.Value.Layer.CompareTo(pair1.Value.Layer));
+            _scenes = scenesList.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
     }
 }

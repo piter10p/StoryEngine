@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using StoryEngine.Configuration;
 using StoryEngine.Graphics;
+using StoryEngine.Input;
 using System.Reflection;
 
 namespace StoryEngine.Extensions
@@ -15,6 +16,7 @@ namespace StoryEngine.Extensions
             services.AddSingleton(_ => configuration);
             services.AddSingleton<IScenesManager, ScenesManager>();
             services.AddSingleton<IWindow, Window>();
+            services.AddSingleton<IKeyReader, KeyReader>();
             services.AddSingleton<Engine>();
 
             services.Scan(scan => scan
