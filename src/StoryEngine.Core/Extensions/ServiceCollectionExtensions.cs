@@ -18,6 +18,7 @@ namespace StoryEngine.Core.Extensions
             services.AddSingleton<IScenesManager, ScenesManager>();
             services.AddSingleton<IWindow, Window>();
             services.AddSingleton<IInputReader, InputReader>();
+            services.AddSingleton<IButtonHandler, ButtonHandler>();
             services.AddSingleton<Engine>();
 
             services.Scan(scan => scan

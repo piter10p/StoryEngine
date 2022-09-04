@@ -3,7 +3,7 @@
     public interface IInputReader
     {
         public void Update();
-        public bool KeyPressed(ConsoleKey key);
+        public bool IsKeyInBuffer(ConsoleKey key);
         public ConsoleKey[] GetBuffer();
     }
 }

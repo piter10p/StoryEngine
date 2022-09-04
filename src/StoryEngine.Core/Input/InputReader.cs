@@ -16,7 +16,7 @@
             _buffer = _gameConsole.GetBuffer();
         }
 
-        public bool KeyPressed(ConsoleKey key)
+        public bool IsKeyInBuffer(ConsoleKey key)
         {
             return _buffer.Contains(key);
         }

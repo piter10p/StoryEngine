@@ -8,18 +8,18 @@ namespace StoryEngine.Core
     {
         private readonly EngineConfiguration _configuration;
         private readonly IScenesManager _scenesManager;
-        private readonly IInputReader _keyReader;
+        private readonly IInputReader _inputReader;
         private readonly IWindow _window;
 
         public Engine(
             EngineConfiguration configuration,
             IScenesManager scenesManager,
-            IInputReader keyReader,
+            IInputReader inputReader,
             IWindow window)
         {
             _configuration = configuration;
             _scenesManager = scenesManager;
-            _keyReader = keyReader;
+            _inputReader = inputReader;
             _window = window;
         }
 
@@ -35,7 +35,7 @@ namespace StoryEngine.Core
             {
                 var deltaTime = DateTime.Now - lastUpdateTime;
                 lastUpdateTime = DateTime.Now;
-                _keyReader.Update();
+                _inputReader.Update();
                 _scenesManager.UpdateScenes(new DeltaTime(deltaTime));
                 _window.Display();
             }

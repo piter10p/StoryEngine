@@ -18,10 +18,14 @@ namespace StoryEngine.Example
         private readonly IScenesManager _scenesManager;
         private readonly IWindow _window;
         private readonly IInputReader _keyReader;
+        private readonly IButtonHandler _buttonHandler;
         private readonly int _displayHeight;
 
         private SceneOne? _sceneOne;
         private SceneTwo? _sceneTwo;
+
+        private readonly Button _changeSceneButton = new Button(ConsoleKey.Spacebar);
+        private readonly Button _changeEnableStateButton = new Button(ConsoleKey.W);
 
         private EnableState _enableState = EnableState.AllEnabled;
 
@@ -29,11 +33,13 @@ namespace StoryEngine.Example
             IScenesManager scenesManager,
             IWindow window,
             IInputReader keyReader,
+            IButtonHandler buttonHandler,
             EngineConfiguration configuration)
         {
             _scenesManager = scenesManager;
             _window = window;
             _keyReader = keyReader;
+            _buttonHandler = buttonHandler;
             _displayHeight = configuration.WindowSize.Height - 1;
         }
 
@@ -50,12 +56,12 @@ namespace StoryEngine.Example
             _window.Draw(new Text("Press Space or W :)", new Coordinates(0, _displayHeight - 1)));
             _window.Draw(new Text($"Delay: {deltaTime.TimeElapsed.Milliseconds}ms.", new Coordinates(0, _displayHeight)));
 
-            if (_keyReader.KeyPressed(ConsoleKey.Spacebar))
+            if(_buttonHandler.Update(_changeSceneButton))
             {
                 SwitchScenesLayers();
             }
 
-            if(_keyReader.KeyPressed(ConsoleKey.W))
+            if(_buttonHandler.Update(_changeEnableStateButton))
             {
                 IncrementEnableState();
                 ApplyEnableState();
