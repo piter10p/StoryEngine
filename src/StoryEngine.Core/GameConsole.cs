@@ -11,6 +11,8 @@ namespace StoryEngine.Core
 
         public void SetCursorPosition(Coordinates coordinates)
         {
+            if (coordinates is null) throw new ArgumentNullException(nameof(coordinates));
+
             Console.SetCursorPosition(coordinates.X, coordinates.Y);
         }
 

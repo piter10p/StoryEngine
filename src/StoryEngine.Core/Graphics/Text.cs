@@ -21,6 +21,8 @@
 
         public bool TakeChar(Coordinates coordinates, out char? c)
         {
+            if (coordinates is null) throw new ArgumentNullException(nameof(coordinates));
+
             if (!_bounds.Includes(coordinates))
             {
                 c = null;

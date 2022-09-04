@@ -52,6 +52,8 @@ namespace StoryEngine.Core
 
         public void UpdateScenes(DeltaTime deltaTime)
         {
+            if (deltaTime is null) throw new ArgumentNullException(nameof(deltaTime));
+
             SortScenes();
 
             foreach (var scene in _scenes.Values)

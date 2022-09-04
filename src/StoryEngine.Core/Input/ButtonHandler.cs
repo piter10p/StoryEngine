@@ -11,6 +11,8 @@
 
         public bool Update(Button button)
         {
+            if (button is null) throw new ArgumentNullException(nameof(button));
+
             var pressed = _inputReader.IsKeyInBuffer(button.Key);
 
             if (pressed && button.State == KeyState.Released)
