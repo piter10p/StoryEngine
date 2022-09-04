@@ -1,6 +1,6 @@
 ﻿namespace StoryEngine.Core.Input
 {
-    public interface IKeyReader
+    public interface IInputReader
     {
         public void Update();
         public bool KeyPressed(ConsoleKey key);

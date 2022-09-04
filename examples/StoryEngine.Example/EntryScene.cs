@@ -9,7 +9,7 @@ namespace StoryEngine.Example
     {
         private readonly IScenesManager _scenesManager;
         private readonly IWindow _window;
-        private readonly IKeyReader _keyReader;
+        private readonly IInputReader _keyReader;
         private readonly int _displayHeight;
 
         private SceneOne? _sceneOne;
@@ -18,7 +18,7 @@ namespace StoryEngine.Example
         public EntryScene(
             IScenesManager scenesManager,
             IWindow window,
-            IKeyReader keyReader,
+            IInputReader keyReader,
             EngineConfiguration configuration)
         {
             _scenesManager = scenesManager;

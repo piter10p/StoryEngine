@@ -1,19 +1,19 @@
 ﻿namespace StoryEngine.Core.Input
 {
-    public class KeyReader : IKeyReader
+    public class InputReader : IInputReader
     {
         private ConsoleKey[] _buffer = Array.Empty<ConsoleKey>();
 
+        private readonly IGameConsole _gameConsole;
+
+        public InputReader(IGameConsole gameConsole)
+        {
+            _gameConsole = gameConsole;
+        }
+
         public void Update()
         {
-            var keys = new List<ConsoleKey>();
-
-            while (Console.KeyAvailable)
-            {
-                keys.Add(Console.ReadKey(true).Key);
-            }
-
-            _buffer = keys.ToArray();
+            _buffer = _gameConsole.GetBuffer();
         }
 
         public bool KeyPressed(ConsoleKey key)

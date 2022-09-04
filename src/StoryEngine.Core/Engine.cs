@@ -8,13 +8,13 @@ namespace StoryEngine.Core
     {
         private readonly EngineConfiguration _configuration;
         private readonly IScenesManager _scenesManager;
-        private readonly IKeyReader _keyReader;
+        private readonly IInputReader _keyReader;
         private readonly IWindow _window;
 
         public Engine(
             EngineConfiguration configuration,
             IScenesManager scenesManager,
-            IKeyReader keyReader,
+            IInputReader keyReader,
             IWindow window)
         {
             _configuration = configuration;

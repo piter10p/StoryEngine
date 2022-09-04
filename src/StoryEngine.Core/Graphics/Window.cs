@@ -6,10 +6,14 @@ namespace StoryEngine.Core.Graphics
     {
         private readonly List<Text> _texts = new List<Text>();
         private readonly EngineConfiguration _engineConfiguration;
+        private readonly IGameConsole _gameConsole;
 
-        public Window(EngineConfiguration engineConfiguration)
+        public Window(
+            EngineConfiguration engineConfiguration,
+            IGameConsole gameConsole)
         {
             _engineConfiguration = engineConfiguration;
+            _gameConsole = gameConsole;
         }
 
         public void Draw(Text text)
@@ -33,12 +37,12 @@ namespace StoryEngine.Core.Graphics
                             c = ch;
                     }
 
-                    Console.SetCursorPosition(x, y);
+                    _gameConsole.SetCursorPosition(coordinates);
 
                     if (c is null)
-                        Console.Write(' ');
+                        _gameConsole.Write(' ');
                     else
-                        Console.Write(c);
+                        _gameConsole.Write(c!.Value);
                 }
             }
 

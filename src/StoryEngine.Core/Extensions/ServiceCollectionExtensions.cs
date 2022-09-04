@@ -14,9 +14,10 @@ namespace StoryEngine.Core.Extensions
             params Assembly[] assembliesToScan)
         {
             services.AddSingleton(_ => configuration);
+            services.AddSingleton<IGameConsole, GameConsole>();
             services.AddSingleton<IScenesManager, ScenesManager>();
             services.AddSingleton<IWindow, Window>();
-            services.AddSingleton<IKeyReader, KeyReader>();
+            services.AddSingleton<IInputReader, InputReader>();
             services.AddSingleton<Engine>();
 
             services.Scan(scan => scan
