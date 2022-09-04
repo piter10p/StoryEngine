@@ -7,18 +7,18 @@ using Xunit;
 
 namespace StoryEngine.Core.Tests
 {
-    public class SceneMockTwo : SceneMock
-    {
-    }
+    public class SceneSecondMock : SceneMock
+    {}
 
-    public class SceneMockDisabled : SceneMock
-    {
-    }
+    public class SceneDisabledMock : SceneMock
+    {}
 
     public class ScenesManagerTests
     {
+        public DeltaTime DeltaTime => new DeltaTime(TimeSpan.Zero);
+
         [Fact]
-        public void LoadScene_ShouldLoadScene_InitializeIt_AndReturnScene()
+        public void LoadScene_ShouldEnqueueScene_NotInitialize()
         {
             //Arrange
             var scene = new SceneMock();
@@ -30,16 +30,17 @@ namespace StoryEngine.Core.Tests
             var sut = new ScenesManager(serviceProviderMock.Object);
 
             //Act
-            var actualScene = sut.LoadScene<SceneMock>();
+            var actual = sut.LoadScene<SceneMock>();
 
             //Assert
-            actualScene.Should().NotBeNull();
-            actualScene.Should().Be(scene);
-            scene.InitializationsCounter.Should().Be(1);
+            actual.Should().NotBeNull();
+            actual.Should().Be(scene);
+            actual!.InitializationsCounter.Should().Be(0);
+            actual!.UpdatesCounter.Should().Be(0);
         }
 
         [Fact]
-        public void LoadScene_ThatIsLoadedAlready_ShouldThrowException()
+        public void LoadScene_SceneQueuedAlready_ShouldReturnNull()
         {
             //Arrange
             var scene = new SceneMock();
@@ -50,13 +51,58 @@ namespace StoryEngine.Core.Tests
 
             var sut = new ScenesManager(serviceProviderMock.Object);
 
-            //Act & Assert
+            //Act
             sut.LoadScene<SceneMock>();
-            Assert.Throws<SceneLoadedAlreadyException>(() => sut.LoadScene<SceneMock>());
+            var actual = sut.LoadScene<SceneMock>();
+
+            //Assert
+            actual.Should().BeNull();
         }
 
         [Fact]
-        public void LoadScene_ThatIsNotRegistered_ShouldThrowException()
+        public void LoadQueuedScenes_ShouldLoadAndInitializeQueuedScene()
+        {
+            //Arrange
+            var scene = new SceneMock();
+
+            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            serviceProviderMock.Setup(x => x.GetService(typeof(SceneMock)))
+                .Returns(scene);
+
+            var sut = new ScenesManager(serviceProviderMock.Object);
+
+            //Act
+            sut.LoadScene<SceneMock>();
+            sut.LoadQueuedScenes();
+
+            //Assert
+            scene.InitializationsCounter.Should().Be(1);
+            scene.UpdatesCounter.Should().Be(0);
+        }
+
+        [Fact]
+        public void LoadScene_SceneLoadedAlready_ShouldReturnNull()
+        {
+            //Arrange
+            var scene = new SceneMock();
+
+            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            serviceProviderMock.Setup(x => x.GetService(typeof(SceneMock)))
+                .Returns(scene);
+
+            var sut = new ScenesManager(serviceProviderMock.Object);
+
+            //Act
+            sut.LoadScene<SceneMock>();
+            sut.LoadQueuedScenes();
+            var actual = sut.LoadScene<SceneMock>();
+
+            //Assert
+            actual.Should().BeNull();
+        }
+
+        [Fact]
+        public void LoadScene_SceneNotRegistered_ShouldThrowException()
         {
             //Arrange
             var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
@@ -70,7 +116,7 @@ namespace StoryEngine.Core.Tests
         }
 
         [Fact]
-        public void Remove_ExistingScene_ShouldSucceed()
+        public void RemoveScene_ShouldEnqueueScene_NotRemove()
         {
             //Arrange
             var scene = new SceneMock();
@@ -83,23 +129,16 @@ namespace StoryEngine.Core.Tests
 
             //Act
             sut.LoadScene<SceneMock>();
+            sut.LoadQueuedScenes();
             sut.RemoveScene<SceneMock>();
+            var loadedScene = sut.GetLoadedScene<SceneMock>();
+
+            //Assert
+            loadedScene.Should().NotBeNull();
         }
 
         [Fact]
-        public void Remove_NotExistingScene_ShouldThrowException()
-        {
-            //Arrange
-            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
-
-            var sut = new ScenesManager(serviceProviderMock.Object);
-
-            //Act & Assert
-            Assert.Throws<SceneNotLoadedException>(() => sut.RemoveScene<SceneMock>());
-        }
-
-        [Fact]
-        public void Remove_RemovedAlreadyScene_ShouldThrowException()
+        public void RemoveQueuedScenes_ShouldRemoveQueuedScene()
         {
             //Arrange
             var scene = new SceneMock();
@@ -110,56 +149,55 @@ namespace StoryEngine.Core.Tests
 
             var sut = new ScenesManager(serviceProviderMock.Object);
 
-            //Act & Assert
+            //Act
             sut.LoadScene<SceneMock>();
+            sut.LoadQueuedScenes();
             sut.RemoveScene<SceneMock>();
-            Assert.Throws<SceneNotLoadedException>(() => sut.RemoveScene<SceneMock>());
+            sut.RemoveQueuedScenes();
+            var loadedScene = sut.GetLoadedScene<SceneMock>();
+
+            //Assert
+            loadedScene.Should().BeNull();
         }
 
         [Fact]
         public void UpdateScenes_ShouldUpdateScenesInCorrectOrder_AndNotUpdateDisabledScene()
         {
             //Arrange
-            var sceneOne = new SceneMock();
-            sceneOne.Layer = 1;
-
-            var sceneTwo = new SceneMockTwo();
-            sceneTwo.Layer = 2;
-
-            var sceneDisabled = new SceneMockDisabled();
-            sceneDisabled.Layer = 3;
+            var scene = new SceneMock();
+            scene.Layer = 0;
+            var secondScene = new SceneSecondMock();
+            scene.Layer = 1;
+            var disabledScene = new SceneDisabledMock();
+            scene.Layer = -1;
 
             var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
             serviceProviderMock.Setup(x => x.GetService(typeof(SceneMock)))
-                .Returns(sceneOne);
-            serviceProviderMock.Setup(x => x.GetService(typeof(SceneMockTwo)))
-                .Returns(sceneTwo);
-            serviceProviderMock.Setup(x => x.GetService(typeof(SceneMockDisabled)))
-                .Returns(sceneDisabled);
+                .Returns(scene);
+            serviceProviderMock.Setup(x => x.GetService(typeof(SceneSecondMock)))
+                .Returns(secondScene);
+            serviceProviderMock.Setup(x => x.GetService(typeof(SceneDisabledMock)))
+                .Returns(disabledScene);
 
             var sut = new ScenesManager(serviceProviderMock.Object);
 
             //Act
-            sut.LoadScene<SceneMockTwo>();
             sut.LoadScene<SceneMock>();
-            sut.LoadScene<SceneMockDisabled>();
+            sut.LoadScene<SceneSecondMock>();
+            sut.LoadScene<SceneDisabledMock>();
+            sut.LoadQueuedScenes();
 
-            var loadedScene = sut.GetLoadedScene<SceneMockDisabled>();
-            loadedScene.Enabled = false;
+            var disabledLoadedScene = sut.GetLoadedScene<SceneDisabledMock>();
+            disabledLoadedScene!.Enabled = false;
 
-            var deltaTime = new DeltaTime(TimeSpan.FromSeconds(1));
-            sut.UpdateScenes(deltaTime);
+            sut.UpdateScenes(DeltaTime);
 
-            //Assert
-            sceneOne.InitializationsCounter.Should().Be(1);
-            sceneTwo.InitializationsCounter.Should().Be(1);
-            sceneDisabled.InitializationsCounter.Should().Be(1);
+            //Arrange
+            scene.UpdatesCounter.Should().Be(1);
+            secondScene.UpdatesCounter.Should().Be(1);
+            disabledScene.UpdatesCounter.Should().Be(0);
 
-            sceneOne.UpdatesCounter.Should().Be(1);
-            sceneTwo.UpdatesCounter.Should().Be(1);
-            sceneDisabled.UpdatesCounter.Should().Be(0);
-
-            sceneOne.LastUpdateTime.Ticks.Should().BeLessThan(sceneTwo.LastUpdateTime.Ticks);
+            scene.LastUpdateTime.Ticks.Should().BeLessThan(secondScene.LastUpdateTime.Ticks);
         }
     }
 }
