@@ -24,29 +24,27 @@ namespace StoryEngine.Core.Graphics
 
         public void Display()
         {
-            for (var y = 0; y < _engineConfiguration.WindowSize.Height; y++)
-            {
-                var lineCoordinates = new Coordinates(0, y);
-                _gameConsole.SetCursorPosition(lineCoordinates);
+            var buffer = new char[_engineConfiguration.WindowSize.Width * _engineConfiguration.WindowSize.Height];
 
-                for (var x = 0; x < _engineConfiguration.WindowSize.Width; x++)
+            for(var x = 0; x < _engineConfiguration.WindowSize.Width; x++)
+            {
+                for(var y = 0; y < _engineConfiguration.WindowSize.Height; y++)
                 {
                     var coordinates = new Coordinates(x, y);
-                    char? c = null;
 
                     foreach (var text in _texts)
                     {
-                        if (text.TakeChar(coordinates, out var ch))
-                            c = ch;
-                    }
+                        var c = text.TakeChar(coordinates);
 
-                    if (c is null)
-                        _gameConsole.Write(' ');
-                    else
-                        _gameConsole.Write(c!.Value);
+                        var bufferIndex = x + y * _engineConfiguration.WindowSize.Width;
+
+                        if (c is not null)
+                            buffer[bufferIndex] = c!.Value;
+                    }
                 }
             }
 
+            _gameConsole.WriteToBuffer(buffer);
             _texts.Clear();
         }
     }

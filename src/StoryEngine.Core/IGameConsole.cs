@@ -4,8 +4,7 @@ namespace StoryEngine.Core
 {
     public interface IGameConsole
     {
-        public void Write(char c);
-        public void SetCursorPosition(Coordinates coordinates);
-        public ConsoleKey[] GetBuffer();
+        public void WriteToBuffer(char[] content);
+        public ConsoleKey[] GetInput();
     }
 }

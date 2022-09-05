@@ -13,7 +13,7 @@
 
         public void Update()
         {
-            _buffer = _gameConsole.GetBuffer();
+            _buffer = _gameConsole.GetInput();
         }
 
         public bool IsKeyInBuffer(ConsoleKey key)

@@ -19,15 +19,12 @@
         private readonly Coordinates _coordinates;
         private readonly Box _bounds;
 
-        public bool TakeChar(Coordinates coordinates, out char? c)
+        public char? TakeChar(Coordinates coordinates)
         {
             if (coordinates is null) throw new ArgumentNullException(nameof(coordinates));
 
             if (!_bounds.Includes(coordinates))
-            {
-                c = null;
-                return false;
-            }
+                return null;
 
             var x = coordinates.X - _coordinates.X;
             var y = coordinates.Y - _coordinates.Y;
@@ -35,13 +32,9 @@
             var line = _lines[y];
 
             if (x >= line.Length)
-            {
-                c = null;
-                return false;
-            }
+                return null;
 
-            c = line[x];
-            return true;
+            return line[x];
         }
     }
 }

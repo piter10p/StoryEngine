@@ -14,7 +14,7 @@ namespace StoryEngine.Core.Extensions
             params Assembly[] assembliesToScan)
         {
             services.AddSingleton(_ => configuration);
-            services.AddSingleton<IGameConsole, GameConsole>();
+            services.AddSingleton<IGameConsole, WindowsGameConsole>();
             services.AddSingleton<IScenesManager, ScenesManager>();
             services.AddSingleton<IWindow, Window>();
             services.AddSingleton<IGameSaver, GameSaver>();
