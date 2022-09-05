@@ -44,6 +44,8 @@ namespace StoryEngine.Core.Components.Typer
                         IsPlaying = false;
 
                     _currentPosition++;
+
+                    _timeFromLastUpdate = TimeSpan.Zero;
                 }
             }
 
