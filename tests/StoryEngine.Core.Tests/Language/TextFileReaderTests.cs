@@ -28,7 +28,7 @@ namespace StoryEngine.Core.Tests.Language
             AssertText(texts[4], "secondElement\\d", "test5");
         }
 
-        private void AssertText(Text text, string expectedPath, string expetedValue)
+        private void AssertText(TextNode text, string expectedPath, string expetedValue)
         {
             text.Path.Should().Be(expectedPath);
             text.Value.Should().Be(expetedValue);

@@ -8,7 +8,7 @@ namespace StoryEngine.Core.Language
         {
             var jsonDocument = JsonDocument.Parse(textFile);
 
-            var texts = new List<Text>();
+            var texts = new List<TextNode>();
 
             foreach (var prop in jsonDocument.RootElement.EnumerateObject())
             {
@@ -18,12 +18,12 @@ namespace StoryEngine.Core.Language
             return new TextFile(texts);
         }
 
-        private void ReadNode(JsonProperty property, string path, List<Text> texts)
+        private void ReadNode(JsonProperty property, string path, List<TextNode> texts)
         {
             if (property.Value.ValueKind == JsonValueKind.String)
             {
                 var elementPath = Path.Combine(path, property.Name);
-                texts.Add(new Text(elementPath, property.Value.GetString()!));
+                texts.Add(new TextNode(elementPath, property.Value.GetString()!));
             }
 
             if (property.Value.ValueKind == JsonValueKind.Object)

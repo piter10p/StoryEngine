@@ -15,4 +15,13 @@
     <ProjectReference Include="..\..\src\StoryEngine.Core\StoryEngine.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\en\test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\pl\test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
