@@ -1,0 +1,18 @@
+﻿{
+  "firstElement": {
+    "a": "test1",
+    "b": "test2",
+    "c": {
+      "d": "test3"
+    }
+  },
+  "secondElement": {
+    "a": "test4",
+    "b": [
+      "asd",
+      "dsa"
+    ],
+    "c": 5,
+    "d":  "test5"
+  }
+}

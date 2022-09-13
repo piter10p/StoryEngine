@@ -2,6 +2,7 @@
 using StoryEngine.Core.Configuration;
 using StoryEngine.Core.Graphics;
 using StoryEngine.Core.Input;
+using StoryEngine.Core.Language;
 using System.Reflection;
 
 namespace StoryEngine.Core.Extensions
@@ -20,6 +21,8 @@ namespace StoryEngine.Core.Extensions
             services.AddSingleton<IGameSaver, GameSaver>();
             services.AddSingleton<IInputReader, InputReader>();
             services.AddSingleton<IButtonHandler, ButtonHandler>();
+            services.AddSingleton<ITextFileLoader, TextFileLoader>();
+            services.AddSingleton<ITextFileReader, TextFileReader>();
             services.AddSingleton<Engine>();
 
             services.Scan(scan => scan
