@@ -10,22 +10,27 @@ namespace StoryEngine.Core
         private readonly IScenesManager _scenesManager;
         private readonly IInputReader _inputReader;
         private readonly IWindow _window;
+        private readonly IGameConsole _gameConsole;
 
         public Engine(
             EngineConfiguration configuration,
             IScenesManager scenesManager,
             IInputReader inputReader,
-            IWindow window)
+            IWindow window,
+            IGameConsole gameConsole)
         {
             _configuration = configuration;
             _scenesManager = scenesManager;
             _inputReader = inputReader;
             _window = window;
+            _gameConsole = gameConsole;
         }
 
         public void Run<TEntryScene>() where TEntryScene : IScene
         {
-            Initialize();
+            _gameConsole.Initialize(
+                _configuration.WindowSize.Width,
+                _configuration.WindowSize.Height);
 
             _scenesManager.LoadScene<TEntryScene>();
 
@@ -41,12 +46,6 @@ namespace StoryEngine.Core
                 _scenesManager.LoadQueuedScenes();
                 _window.Display();
             }
-        }
-
-        private void Initialize()
-        {
-            Console.SetWindowSize(_configuration.WindowSize.Width, _configuration.WindowSize.Height);
-            Console.CursorVisible = false;
         }
     }
 }

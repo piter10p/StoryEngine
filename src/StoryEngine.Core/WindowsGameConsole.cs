@@ -8,9 +8,28 @@ namespace StoryEngine.Core
     {
         private readonly EngineConfiguration _engineConfiguration;
 
+        private const int MF_BYCOMMAND = 0x00000000;
+        private const int SC_MAXIMIZE = 0xF030;
+        private const int SC_SIZE = 0xF000;
+
         public WindowsGameConsole(EngineConfiguration engineConfiguration)
         {
             _engineConfiguration = engineConfiguration;
+        }
+
+        public void Initialize(int width, int height)
+        {
+            Console.CursorVisible = false;
+            Console.SetWindowSize(width, height);
+
+            IntPtr handle = GetConsoleWindow();
+            IntPtr sysMenu = GetSystemMenu(handle, false);
+
+            if (handle != IntPtr.Zero)
+            {
+                DeleteMenu(sysMenu, SC_MAXIMIZE, MF_BYCOMMAND);
+                DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
+            }
         }
 
         public ConsoleKey[] GetInput()
@@ -63,8 +82,17 @@ namespace StoryEngine.Core
             }
         }
 
+        [DllImport("user32.dll")]
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern SafeFileHandle CreateFile(
+        private static extern SafeFileHandle CreateFile(
             string fileName,
             [MarshalAs(UnmanagedType.U4)] uint fileAccess,
             [MarshalAs(UnmanagedType.U4)] uint fileShare,
@@ -74,7 +102,7 @@ namespace StoryEngine.Core
             IntPtr template);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool WriteConsoleOutputW(
+        private static extern bool WriteConsoleOutputW(
           SafeFileHandle hConsoleOutput,
           CharInfo[] lpBuffer,
           Coord dwBufferSize,
@@ -82,7 +110,7 @@ namespace StoryEngine.Core
           ref SmallRect lpWriteRegion);
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct Coord
+        private struct Coord
         {
             public short X;
             public short Y;
@@ -95,21 +123,21 @@ namespace StoryEngine.Core
         };
 
         [StructLayout(LayoutKind.Explicit)]
-        public struct CharUnion
+        private struct CharUnion
         {
             [FieldOffset(0)] public ushort UnicodeChar;
             [FieldOffset(0)] public byte AsciiChar;
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        public struct CharInfo
+        private struct CharInfo
         {
             [FieldOffset(0)] public CharUnion Char;
             [FieldOffset(2)] public short Attributes;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct SmallRect
+        private struct SmallRect
         {
             public short Left;
             public short Top;
