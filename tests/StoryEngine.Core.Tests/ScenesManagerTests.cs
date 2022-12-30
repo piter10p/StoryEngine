@@ -18,6 +18,42 @@ namespace StoryEngine.Core.Tests
         public DeltaTime DeltaTime => new DeltaTime(TimeSpan.Zero);
 
         [Fact]
+        public void LoadScene_InvalidType_ShouldThrowException()
+        {
+            //Arrange
+            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            var sut = new ScenesManager(serviceProviderMock.Object);
+
+            //Act & Assert
+            var action = () => sut.LoadScene(typeof(string));
+            action.Should().Throw<SceneTypeInvalidException>();
+        }
+
+        [Fact]
+        public void RemoveScene_InvalidType_ShouldThrowException()
+        {
+            //Arrange
+            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            var sut = new ScenesManager(serviceProviderMock.Object);
+
+            //Act & Assert
+            var action = () => sut.RemoveScene(typeof(string));
+            action.Should().Throw<SceneTypeInvalidException>();
+        }
+
+        [Fact]
+        public void GetLoadedScene_InvalidType_ShouldThrowException()
+        {
+            //Arrange
+            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            var sut = new ScenesManager(serviceProviderMock.Object);
+
+            //Act & Assert
+            var action = () => sut.GetLoadedScene(typeof(string));
+            action.Should().Throw<SceneTypeInvalidException>();
+        }
+
+        [Fact]
         public void LoadScene_ShouldEnqueueScene_NotInitialize()
         {
             //Arrange

@@ -16,12 +16,13 @@ namespace StoryEngine.Core
             _serviceProvider = serviceProvider;
         }
 
-        public TScene? LoadScene<TScene>() where TScene : IScene
+        public object? LoadScene(Type sceneType)
         {
-            var sceneType = typeof(TScene);
+            if (!IsSceneTypeValid(sceneType))
+                throw new SceneTypeInvalidException(sceneType);
 
             if (_scenes.ContainsKey(sceneType) || _scenesToLoad.ContainsKey(sceneType))
-                return default(TScene);
+                return null;
 
             var scene = _serviceProvider.GetService(sceneType) as IScene;
 
@@ -29,12 +30,13 @@ namespace StoryEngine.Core
                 throw new SceneNotRegisteredException(sceneType);
 
             _scenesToLoad.Add(sceneType, scene);
-            return (TScene)scene;
+            return scene;
         }
 
-        public void RemoveScene<TScene>() where TScene : IScene
+        public void RemoveScene(Type sceneType)
         {
-            var sceneType = typeof(TScene);
+            if (!IsSceneTypeValid(sceneType))
+                throw new SceneTypeInvalidException(sceneType);
 
             if (!_scenes.ContainsKey(sceneType) || _scenesToRemove.Contains(sceneType))
                 return;
@@ -42,14 +44,33 @@ namespace StoryEngine.Core
             _scenesToRemove.Add(sceneType);
         }
 
-        public LoadedScene? GetLoadedScene<TScene>() where TScene : IScene
+        public LoadedScene? GetLoadedScene(Type sceneType)
         {
-            var sceneType = typeof(TScene);
+            if (!IsSceneTypeValid(sceneType))
+                throw new SceneTypeInvalidException(sceneType);
 
             if (!_scenes.ContainsKey(sceneType))
                 return null;
 
             return _scenes[sceneType];
+        }
+
+        public TScene? LoadScene<TScene>() where TScene : IScene
+        {
+            var sceneType = typeof(TScene);
+            return (TScene?)LoadScene(sceneType);
+        }
+
+        public void RemoveScene<TScene>() where TScene : IScene
+        {
+            var sceneType = typeof(TScene);
+            RemoveScene(sceneType);
+        }
+
+        public LoadedScene? GetLoadedScene<TScene>() where TScene : IScene
+        {
+            var sceneType = typeof(TScene);
+            return GetLoadedScene(sceneType);
         }
 
         public void UpdateScenes(DeltaTime deltaTime)
@@ -63,6 +84,11 @@ namespace StoryEngine.Core
                 if(scene.Enabled)
                     scene.Scene.Update(deltaTime);
             }
+        }
+
+        private static bool IsSceneTypeValid(Type sceneType)
+        {
+            return typeof(IScene).IsAssignableFrom(sceneType);
         }
 
         private void SortScenes()
